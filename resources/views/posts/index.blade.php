@@ -1,30 +1,30 @@
-@extends('layouts.default')
+@extends('layouts.app')
 
-@section ('title', 'Blog Posts')
+@section ('title')
 
 @section('content')
 <div class="container">
   <p style="text-indent: 1em;"></p>
     <div class="form-inline">
-      <h1>Posts!!!</h1>
+      <h2>掲示板投稿一覧</h2>
     </div>
 
     <div class="text-right" style="padding: 10px">
       @guest
         <div class="text-right" style="padding: 10px">
-          <a href="{{ url('/posts/create') }}" class="btn btn-info" role="button">New Post</a>
-          <a href="{{ url('/login') }}" class="btn btn-primary" role="button">login</a>
+          <a href="{{ url('/posts/create') }}" class="btn btn-info" role="button">新規投稿</a>
+          <a href="{{ url('/login') }}" class="btn btn-primary" role="button">ログイン</a>
           <a href="{{ url('/register') }}" class="h6">会員登録はこちら</a>
         </div>
       @else
         <div class="text-right" style="padding: 10px">
-          <a href="{{ url('/posts/create') }}" class="btn btn-info" role="button">New Post</a>
+          <a href="{{ url('/posts/create') }}" class="btn btn-info" role="button">新規投稿</a>
         </div>
         会員情報: {{ Auth::user()->name }} (ID: {{ Auth::user()->id }} )
         <a href="{{ route('logout') }}"
             onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
-            Logout
+            ログアウト
         </a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
@@ -33,7 +33,9 @@
       </div>
 
   <ul>
-    @forelse ($posts as $post)
+    {{$posts->links()}}
+
+    @foreach ($posts as $post)
     <div class="card">
       <div class="alert alert-secondary" role="alert">
         <div class="form-inline">
@@ -44,11 +46,10 @@
         <p>コメント数:{{ count($post->comments) }}</p>
         <div class="text-right">
           <p>作成者:{{ $post->user->name }}</p>
-          <p>最終更新日:{{ $post->updated_at }}</P>
+          <p>最終更新日:{{ $post->updated_at->format('Y/m/d') }}</P>
         </div>
 
-        @guest
-        @else
+        @auth
           <div class="text-right">
             <a href="{{ action('PostController@edit', $post)}}" >[編集]</a>
             <a href="#" class="del" data-id="{{ $post->id }}">[削除]</a>
@@ -58,15 +59,14 @@
 
             </form>
           </div>
-        @endguest
+        @endauth
       </div>
     </div>
-     @empty
-    <li>No posts yet</li>
-    @endforelse
+    @endforeach
+    {{$posts->links()}}
   </ul>
   <div class="text-right">
-    <a href="{{ action('ContactController@index')}}">お問い合わせ</a><br><br>
+    <a href="{{ action('ContactController@index')}}" class="btn btn-primary" role="button">お問い合わせ</a><br><br>
   </div>
   <script src="/js/main.js"></script>
 </div>

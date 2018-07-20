@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -27,7 +28,10 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+
+     // Mail::to('email')->send(new Reg($data));
+
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -48,7 +52,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            // 'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -62,10 +66,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+      // Mail::to('email')->send(new Reg('name,email,password'));
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function pre_check(Request $request){
+      $this->validator($request->all()->validate());
+
+      //flash data
+        $request->flashOnly( 'email');
+
+        $bridge_request = $request->all();
+        // password マスキング
+        $bridge_request['password_mask'] = '******';
+
+        return view('auth.register_check')->with($bridge_request);
     }
 }

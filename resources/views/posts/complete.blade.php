@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
-@section ('title', 'お問い合わせ')
+@section ('title', '投稿')
 @section('content')
 
 <div class="container">
   <p style="text-indent: 1em;"></p>
     <div class="form-inline">
-      <h3>お問い合わせフォーム</h3>
+      <h3>投稿完了画面</h3>
+
+
     </div>
 </div>
 
@@ -14,8 +16,7 @@
   <a href="{{ url('/') }}">Top画面へ</a>
 </div>
 
-<div style="font-size:16px;">送信完了しました。</div><br>
-<div style="font-size:16px;">メールをご確認お願いします。</div>
+<div style="font-size:17px;">投稿が完了しました。</div><br>
 <br>
 
 @endsection

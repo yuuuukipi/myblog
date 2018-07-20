@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.app')
 
 @section ('title', 'お問い合わせ')
 @section('content')
@@ -6,12 +6,12 @@
 <div class="container">
   <p style="text-indent: 1em;"></p>
     <div class="form-inline">
-      <h1 style="font-size:30px; color:gray;">お問い合わせフォーム</h1>
+      <h3>お問い合わせフォーム</h3>
     </div>
 </div>
 
 <div class="text-right">
-  <a href="{{ url('/') }}">Back</a>
+  <a href="{{ url('/') }}">戻る</a>
 </div>
 
 <form method="post" action="{{ url('/contact/confirm') }}">

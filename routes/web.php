@@ -15,7 +15,9 @@ Route::get('/', 'PostController@index');
 // Route::get('/posts/{id}', 'PostController@show');
 Route::get('/posts/{post}', 'PostController@show')->where('post', '[0-9]+');
 Route::get('/posts/create', 'PostController@create');
-Route::post('/posts', 'PostController@store');
+Route::post('/post/confirm', 'PostController@confirm');
+// Route::post('/post/complete', 'PostController@complete');
+Route::post('/post/complete', 'PostController@store');
 Route::get('/posts/{post}/edit', 'PostController@edit');
 Route::patch('/posts/{post}', 'PostController@update');
 Route::delete('/posts/{post}', 'PostController@destroy');
@@ -28,6 +30,7 @@ Route::get('/contact', 'ContactController@index');
 Route::post('/contact/confirm', 'ContactController@confirm');
 Route::post('/contact/complete', 'ContactController@complete');
 
+Route::post('register/pre_check', 'Auth\RegisterController@pre_check')->name('register.pre_check');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');

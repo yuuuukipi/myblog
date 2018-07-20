@@ -64,7 +64,7 @@ class ContactController extends Controller
       // dd($input);
       if($action === '送信'){
         if($request->session()->get('token') !== $post_token){
-          exit;
+          return redirect('/');
         }
 
         $contact = new Contact();
@@ -74,11 +74,10 @@ class ContactController extends Controller
         $contact->email = session()->get('email');
         $contact->message = session()->get('message');
         $contact->save();
-        $request->session()->flush();
-        // dd($request->session()->get('token'));
-
-        // 二重送信防止
-        // $request->session()->regenerateToken();
+        // $request->session()->flush();
+        $request->session()->forget('name');
+        $request->session()->forget('message');
+        $request->session()->forget('token');
 
         $data = [$contact];
         // dd($contact->email);
