@@ -16,6 +16,7 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('register.main.check') }}">
                                 {{ csrf_field() }}
+                                <input type="hidden" name="email_token" value="{{ $email_token }}">
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     <label for="name" class="col-md-4 control-label">名前</label>
                                     <div class="col-md-6">
